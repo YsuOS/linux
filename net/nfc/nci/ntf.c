@@ -759,6 +759,9 @@ void nci_ntf_packet(struct nci_dev *ndev, struct sk_buff *skb)
 {
 	__u16 ntf_opcode = nci_opcode(skb->data);
 
+	if (unlikely(!nci_plen(skb->data)))
+		goto end;
+
 	pr_debug("NCI RX: MT=ntf, PBF=%d, GID=0x%x, OID=0x%x, plen=%d\n",
 		 nci_pbf(skb->data),
 		 nci_opcode_gid(ntf_opcode),
